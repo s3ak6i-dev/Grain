@@ -52,7 +52,7 @@ export function useRevokeShareLink() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async ({ linkId, clusterId }: { linkId: string; clusterId: string }) => {
+    mutationFn: async ({ linkId, clusterId: _clusterId }: { linkId: string; clusterId: string }) => {
       const { error } = await supabase
         .from('share_links')
         .update({ revoked_at: new Date().toISOString() })

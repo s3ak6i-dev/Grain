@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { supabase } from '@/lib/supabase'
@@ -18,7 +18,6 @@ type Mode = 'loading' | 'invalid' | 'signup' | 'login' | 'accepting' | 'done'
 
 export default function InvitePage() {
   const { token } = useParams<{ token: string }>()
-  const navigate = useNavigate()
   const { user } = useAuth()
 
   const [mode, setMode] = useState<Mode>('loading')

@@ -60,7 +60,7 @@ function AppMockup() {
             return (
               <div
                 key={item}
-                onClick={() => clickable && item !== 'Settings' && setActiveNav(item as any)}
+                onClick={() => { if (clickable) setActiveNav(item as 'Dashboard' | 'Signals' | 'Analytics') }}
                 style={{
                   display: 'flex', alignItems: 'center', gap: 8,
                   padding: '6px 12px', borderRadius: 6, fontSize: 12, marginBottom: 2,
