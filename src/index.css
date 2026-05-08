@@ -1,0 +1,190 @@
+@import "tailwindcss";
+
+@theme {
+  --color-grain-bg: #F7F6F3;
+  --color-grain-surface: #FFFFFF;
+  --color-grain-border: #E8E6E1;
+  --color-grain-primary: #18160F;
+  --color-grain-muted: #8C8984;
+  --color-grain-accent: #D97706;
+  --color-grain-accent-hover: #B45309;
+
+  --font-family-sans: 'Inter', system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #F7F6F3;
+  color: #18160F;
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: rgba(217, 119, 6, 0.15);
+  color: #18160F;
+}
+
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #D4D2CE; border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: #B0AEA9; }
+
+:focus-visible {
+  outline: 2px solid rgba(217, 119, 6, 0.5);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+button, a, input, select, textarea {
+  transition-property: color, background-color, border-color, box-shadow, opacity, transform;
+  transition-duration: 150ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ─── Card elevation system ───────────────────────────────────────────────────
+   All cards are pure white lifted off the warm-white page floor via shadow.
+   Never use a background color difference alone to separate card from page.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.card {
+  background: #FFFFFF;
+  border-radius: 12px;
+  box-shadow:
+    0 1px 2px rgba(24, 22, 15, 0.04),
+    0 4px 16px rgba(24, 22, 15, 0.07);
+}
+
+.card-interactive {
+  transition: box-shadow 220ms ease, transform 220ms ease;
+  cursor: pointer;
+}
+
+.card-interactive:hover {
+  box-shadow:
+    0 4px 8px rgba(24, 22, 15, 0.06),
+    0 14px 32px rgba(24, 22, 15, 0.13);
+  transform: translateY(-2px);
+}
+
+/* ─── Typography helpers ──────────────────────────────────────────────────── */
+
+.page-title {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.022em;
+  color: #18160F;
+  line-height: 1.2;
+}
+
+.section-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: rgba(140, 137, 132, 0.75);
+}
+
+/* ─── Dark sidebar ────────────────────────────────────────────────────────── */
+
+.sidebar-item {
+  color: rgba(255, 255, 255, 0.38);
+  transition: color 150ms, background-color 150ms, box-shadow 150ms;
+}
+
+.sidebar-item:hover {
+  color: rgba(255, 255, 255, 0.72);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-item-active {
+  color: rgba(255, 255, 255, 0.95) !important;
+  background-color: rgba(217, 119, 6, 0.11) !important;
+  font-weight: 500;
+  box-shadow: inset 2px 0 0 #D97706;
+}
+
+.sidebar-item-active:hover {
+  background-color: rgba(217, 119, 6, 0.16) !important;
+}
+
+.sidebar-sign-out {
+  color: rgba(255, 255, 255, 0.28);
+  transition: color 150ms, background-color 150ms;
+}
+
+.sidebar-sign-out:hover {
+  color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+/* ─── Amber primary button shadow ────────────────────────────────────────── */
+
+.btn-amber {
+  box-shadow: 0 0 0 1px rgba(217, 119, 6, 0.28), 0 2px 8px rgba(217, 119, 6, 0.18);
+}
+
+.btn-amber:hover:not(:disabled) {
+  box-shadow: 0 0 0 1px rgba(180, 83, 9, 0.38), 0 4px 16px rgba(217, 119, 6, 0.28);
+}
+
+/* ─── Signal list rows ────────────────────────────────────────────────────── */
+
+.signal-row {
+  border-left: 2px solid transparent;
+  transition: border-left-color 150ms, background-color 150ms;
+}
+
+.signal-row:hover {
+  background-color: rgba(217, 119, 6, 0.024);
+  border-left-color: rgba(217, 119, 6, 0.35);
+}
+
+.signal-row-high {
+  border-left-color: #C0392B !important;
+}
+
+.signal-row-high:hover {
+  background-color: rgba(192, 57, 43, 0.028) !important;
+  border-left-color: #C0392B !important;
+}
+
+.signal-row-medium {
+  border-left-color: #D97706 !important;
+}
+
+.signal-row-medium:hover {
+  background-color: rgba(217, 119, 6, 0.028) !important;
+  border-left-color: #D97706 !important;
+}
+
+/* ─── Dark inputs (onboarding / auth) ────────────────────────────────────── */
+
+.input-dark {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #FAFAF9;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+  width: 100%;
+  outline: none;
+  transition: border-color 150ms, background-color 150ms;
+}
+
+.input-dark::placeholder {
+  color: rgba(255, 255, 255, 0.22);
+}
+
+.input-dark:focus {
+  border-color: rgba(217, 119, 6, 0.55);
+  background: rgba(255, 255, 255, 0.09);
+}
