@@ -168,6 +168,25 @@ export function useDeleteOpenQuestion(clusterId: string) {
   })
 }
 
+export function useUpdateCluster() {
+  const { workspace } = useWorkspace()
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async ({ clusterId, values }: { clusterId: string; values: ClusterValues }) => {
+      const { error } = await supabase
+        .from('problem_clusters')
+        .update({ name: values.name, description: values.description })
+        .eq('id', clusterId)
+      if (error) throw error
+    },
+    onSuccess: (_data, { clusterId }) => {
+      queryClient.invalidateQueries({ queryKey: ['cluster', clusterId] })
+      queryClient.invalidateQueries({ queryKey: ['clusters', workspace?.id] })
+    },
+  })
+}
+
 export function useArchiveCluster() {
   const { workspace } = useWorkspace()
   const queryClient = useQueryClient()

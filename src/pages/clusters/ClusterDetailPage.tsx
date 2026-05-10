@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { ArrowLeft, Trash2, Share2, Copy, Check, Download, ExternalLink } from 'lucide-react'
+import { ArrowLeft, Trash2, Share2, Copy, Check, Download, ExternalLink, Pencil } from 'lucide-react'
 import {
   useCluster,
   useClusterSignals,
   useUpdateClusterStatus,
+  useUpdateCluster,
   useArchiveCluster,
   useOpenQuestions,
   useAddOpenQuestion,
@@ -24,7 +25,7 @@ import {
 } from '@/lib/types'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { openQuestionSchema, type OpenQuestionValues } from '@/lib/schemas'
+import { clusterSchema, openQuestionSchema, type ClusterValues, type OpenQuestionValues } from '@/lib/schemas'
 import type { Signal, ProblemCluster } from '@/lib/types'
 
 const STATUS_OPTIONS: ClusterStatus[] = ['watching', 'investigating', 'in_roadmap', 'wont_solve']
@@ -259,9 +260,15 @@ export default function ClusterDetailPage() {
   const { data: cluster, isLoading } = useCluster(clusterId!)
   const { data: signals } = useClusterSignals(clusterId!)
   const updateStatus = useUpdateClusterStatus()
+  const updateCluster = useUpdateCluster()
   const archiveCluster = useArchiveCluster()
   const [editingStatus, setEditingStatus] = useState(false)
+  const [editingMeta, setEditingMeta] = useState(false)
   const [tab, setTab] = useState<Tab>('signals')
+
+  const metaForm = useForm<ClusterValues>({
+    resolver: zodResolver(clusterSchema),
+  })
 
   const allSegments = signals?.flatMap((s) => s.segments) ?? []
   const allSources = signals?.map((s) => s.source) ?? []
@@ -290,8 +297,59 @@ export default function ClusterDetailPage() {
       <div className="mb-7">
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1">
-            <h1 className="page-title">{cluster.name}</h1>
-            <p className="text-sm text-grain-muted mt-1.5 leading-relaxed">{cluster.description}</p>
+            {editingMeta ? (
+              <form
+                onSubmit={metaForm.handleSubmit(async (values) => {
+                  await updateCluster.mutateAsync({ clusterId: cluster.id, values })
+                  setEditingMeta(false)
+                })}
+                className="flex flex-col gap-2"
+              >
+                <input
+                  autoFocus
+                  className="text-2xl font-semibold text-grain-primary bg-transparent border-b border-grain-accent focus:outline-none w-full"
+                  style={{ letterSpacing: '-0.02em' }}
+                  defaultValue={cluster.name}
+                  {...metaForm.register('name')}
+                />
+                {metaForm.formState.errors.name && (
+                  <p className="text-xs text-red-500">{metaForm.formState.errors.name.message}</p>
+                )}
+                <textarea
+                  rows={2}
+                  className="text-sm text-grain-muted bg-transparent border-b border-grain-border focus:outline-none resize-none w-full leading-relaxed"
+                  defaultValue={cluster.description}
+                  {...metaForm.register('description')}
+                />
+                {metaForm.formState.errors.description && (
+                  <p className="text-xs text-red-500">{metaForm.formState.errors.description.message}</p>
+                )}
+                <div className="flex items-center gap-2 mt-1">
+                  <Button type="submit" size="sm" loading={updateCluster.isPending}>Save</Button>
+                  <button
+                    type="button"
+                    onClick={() => { setEditingMeta(false); metaForm.reset() }}
+                    className="text-xs text-grain-muted hover:text-grain-primary transition-colors"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            ) : (
+              <div className="group flex items-start gap-2">
+                <div>
+                  <h1 className="page-title">{cluster.name}</h1>
+                  <p className="text-sm text-grain-muted mt-1.5 leading-relaxed">{cluster.description}</p>
+                </div>
+                <button
+                  onClick={() => { setEditingMeta(true); metaForm.reset({ name: cluster.name, description: cluster.description }) }}
+                  className="mt-1 opacity-0 group-hover:opacity-100 transition-opacity text-grain-muted hover:text-grain-primary"
+                  title="Edit name and description"
+                >
+                  <Pencil size={13} />
+                </button>
+              </div>
+            )}
           </div>
 
           <div className="flex items-center gap-3 shrink-0 mt-0.5">
