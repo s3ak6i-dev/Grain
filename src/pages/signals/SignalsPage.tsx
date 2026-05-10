@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useSignals, useAssignCluster } from '@/hooks/useSignals'
 import { useClusters } from '@/hooks/useClusters'
 import { ImpactBadge, SegmentBadge, SourceBadge } from '@/components/ui/Badge'
@@ -135,10 +136,13 @@ function ClusterSelect({ signal }: { signal: Signal }) {
 // ─── Signal row ───────────────────────────────────────────────────────────────
 
 function SignalRow({ signal }: { signal: Signal }) {
+  const navigate = useNavigate()
+
   return (
     <div
+      onClick={() => navigate(`/signals/${signal.id}`)}
       className={cn(
-        'signal-row px-5 py-4 bg-white',
+        'signal-row px-5 py-4 bg-white cursor-pointer hover:bg-grain-surface/60 transition-colors',
         signal.business_impact === 'high' && 'signal-row-high',
         signal.business_impact === 'medium' && 'signal-row-medium',
       )}
@@ -159,7 +163,7 @@ function SignalRow({ signal }: { signal: Signal }) {
             </p>
           )}
         </div>
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center gap-2 shrink-0" onClick={(e) => e.stopPropagation()}>
           {signal.source_url && (
             <a
               href={signal.source_url}
@@ -184,7 +188,7 @@ function SignalRow({ signal }: { signal: Signal }) {
         </p>
       )}
 
-      <div className="mt-3 flex items-center gap-2 flex-wrap">
+      <div className="mt-3 flex items-center gap-2 flex-wrap" onClick={(e) => e.stopPropagation()}>
         <SourceBadge source={signal.source} />
         <ImpactBadge impact={signal.business_impact} />
         {signal.segments.map((seg) => (

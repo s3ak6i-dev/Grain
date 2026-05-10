@@ -5,6 +5,7 @@ import {
   useCluster,
   useClusterSignals,
   useUpdateClusterStatus,
+  useArchiveCluster,
   useOpenQuestions,
   useAddOpenQuestion,
   useDeleteOpenQuestion,
@@ -258,6 +259,7 @@ export default function ClusterDetailPage() {
   const { data: cluster, isLoading } = useCluster(clusterId!)
   const { data: signals } = useClusterSignals(clusterId!)
   const updateStatus = useUpdateClusterStatus()
+  const archiveCluster = useArchiveCluster()
   const [editingStatus, setEditingStatus] = useState(false)
   const [tab, setTab] = useState<Tab>('signals')
 
@@ -293,6 +295,17 @@ export default function ClusterDetailPage() {
           </div>
 
           <div className="flex items-center gap-3 shrink-0 mt-0.5">
+            <button
+              onClick={async () => {
+                if (!window.confirm('Archive this problem? It will be hidden from the dashboard but all feedback is preserved.')) return
+                await archiveCluster.mutateAsync(cluster.id)
+                navigate('/dashboard')
+              }}
+              disabled={archiveCluster.isPending}
+              className="flex items-center gap-1.5 text-xs text-grain-muted hover:text-red-500 border border-grain-border rounded-lg px-3 py-1.5 transition-colors bg-white disabled:opacity-50"
+            >
+              Archive
+            </button>
             {signals && signals.length > 0 && (
               <button
                 onClick={() => exportBrief(cluster, signals)}
@@ -398,8 +411,9 @@ export default function ClusterDetailPage() {
               {signals.map((signal) => (
                 <div
                   key={signal.id}
+                  onClick={() => navigate(`/signals/${signal.id}`)}
                   className={cn(
-                    'signal-row px-5 py-4 bg-white',
+                    'signal-row px-5 py-4 bg-white cursor-pointer hover:bg-grain-surface/60 transition-colors',
                     signal.business_impact === 'high' && 'signal-row-high',
                     signal.business_impact === 'medium' && 'signal-row-medium',
                   )}
@@ -420,7 +434,7 @@ export default function ClusterDetailPage() {
                         </p>
                       )}
                     </div>
-                    <div className="flex items-center gap-2 shrink-0">
+                    <div className="flex items-center gap-2 shrink-0" onClick={(e) => e.stopPropagation()}>
                       {signal.source_url && (
                         <a
                           href={signal.source_url}

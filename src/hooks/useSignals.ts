@@ -5,6 +5,22 @@ import { useWorkspace } from '@/contexts/WorkspaceContext'
 import type { SignalValues } from '@/lib/schemas'
 import type { Signal } from '@/lib/types'
 
+export function useSignal(signalId: string) {
+  return useQuery({
+    queryKey: ['signal', signalId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('signals')
+        .select('*')
+        .eq('id', signalId)
+        .single()
+      if (error) throw error
+      return data as Signal
+    },
+    enabled: !!signalId,
+  })
+}
+
 export function useSignals() {
   const { workspace } = useWorkspace()
 
@@ -70,6 +86,56 @@ export function useLogSignal() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['signals', workspace?.id] })
       queryClient.invalidateQueries({ queryKey: ['clusters', workspace?.id] })
+    },
+  })
+}
+
+export function useUpdateSignal() {
+  const { workspace } = useWorkspace()
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async ({ signalId, values }: { signalId: string; values: SignalValues }) => {
+      const { error } = await supabase
+        .from('signals')
+        .update({
+          problem_statement: values.problem_statement,
+          verbatim_quote: values.verbatim_quote || null,
+          source: values.source,
+          segments: values.segments,
+          business_impact: values.business_impact,
+          cluster_id: values.cluster_id || null,
+          signal_date: values.signal_date,
+          account_name: values.account_name || null,
+          account_mrr: values.account_mrr ?? null,
+          source_url: values.source_url || null,
+        })
+        .eq('id', signalId)
+      if (error) throw error
+    },
+    onSuccess: (_data, { signalId }) => {
+      queryClient.invalidateQueries({ queryKey: ['signal', signalId] })
+      queryClient.invalidateQueries({ queryKey: ['signals', workspace?.id] })
+      queryClient.invalidateQueries({ queryKey: ['clusters', workspace?.id] })
+      queryClient.invalidateQueries({ queryKey: ['cluster-signals'] })
+    },
+  })
+}
+
+export function useDeleteSignal() {
+  const { workspace } = useWorkspace()
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async (signalId: string) => {
+      const { error } = await supabase.from('signals').delete().eq('id', signalId)
+      if (error) throw error
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['signals', workspace?.id] })
+      queryClient.invalidateQueries({ queryKey: ['clusters', workspace?.id] })
+      queryClient.invalidateQueries({ queryKey: ['cluster-signals'] })
+      queryClient.invalidateQueries({ queryKey: ['signals-unclustered', workspace?.id] })
     },
   })
 }

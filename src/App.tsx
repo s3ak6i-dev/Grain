@@ -14,6 +14,7 @@ import WorkspaceSetupPage from '@/pages/onboarding/WorkspaceSetupPage'
 import DashboardPage from '@/pages/dashboard/DashboardPage'
 import SignalsPage from '@/pages/signals/SignalsPage'
 import ImportPage from '@/pages/signals/ImportPage'
+import SignalDetailPage from '@/pages/signals/SignalDetailPage'
 import AnalyticsPage from '@/pages/analytics/AnalyticsPage'
 import ClusterDetailPage from '@/pages/clusters/ClusterDetailPage'
 import SettingsPage from '@/pages/settings/SettingsPage'
@@ -47,6 +48,7 @@ const router = createBrowserRouter([
 { path: '/dashboard', element: <DashboardPage /> },
               { path: '/signals', element: <SignalsPage /> },
               { path: '/signals/import', element: <ImportPage /> },
+              { path: '/signals/:signalId', element: <SignalDetailPage /> },
               { path: '/analytics', element: <AnalyticsPage /> },
               { path: '/clusters/:clusterId', element: <ClusterDetailPage /> },
               { path: '/settings', element: <SettingsPage /> },
