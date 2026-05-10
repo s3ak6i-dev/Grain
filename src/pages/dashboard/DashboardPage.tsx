@@ -17,14 +17,14 @@ export default function DashboardPage() {
       {/* Page header */}
       <div className="mb-8 flex items-start justify-between">
         <div>
-          <h1 className="page-title">Pattern Dashboard</h1>
+          <h1 className="page-title">Dashboard</h1>
           <p className="text-sm text-grain-muted mt-1 leading-relaxed">
-            The landscape of user problems and their signal weight.
+            See which user problems keep coming up — and how many times.
           </p>
         </div>
         <Button size="sm" onClick={() => setCreateOpen(true)} className="flex items-center gap-1.5 mt-0.5">
           <Plus size={14} />
-          New cluster
+          New problem
         </Button>
       </div>
 
@@ -32,7 +32,7 @@ export default function DashboardPage() {
       {!isLoading && clusters && clusters.length > 0 && (
         <div className="grid grid-cols-3 gap-4 mb-7">
           <div className="card px-5 py-4">
-            <p className="section-label mb-2">Total signals</p>
+            <p className="section-label mb-2">Total feedback</p>
             <p
               className="text-4xl font-bold leading-none tabular-nums text-grain-accent"
               style={{ letterSpacing: '-0.02em' }}
@@ -41,7 +41,7 @@ export default function DashboardPage() {
             </p>
           </div>
           <div className="card px-5 py-4">
-            <p className="section-label mb-2">Problem clusters</p>
+            <p className="section-label mb-2">Problems</p>
             <p
               className="text-4xl font-bold leading-none tabular-nums text-grain-primary"
               style={{ letterSpacing: '-0.02em' }}
@@ -50,7 +50,7 @@ export default function DashboardPage() {
             </p>
           </div>
           <div className="card px-5 py-4">
-            <p className="section-label mb-2">Unclustered</p>
+            <p className="section-label mb-2">Unassigned</p>
             <p
               className="text-4xl font-bold leading-none tabular-nums"
               style={{
@@ -76,7 +76,7 @@ export default function DashboardPage() {
           <AlertCircle size={14} style={{ color: '#D97706' }} className="shrink-0" />
           <p className="text-sm" style={{ color: '#78350F' }}>
             <span className="font-semibold">{unclusteredCount}</span>{' '}
-            {unclusteredCount === 1 ? 'signal is' : 'signals are'} unclustered. Assign them to a problem cluster to surface patterns.
+            {unclusteredCount === 1 ? 'feedback item is' : 'feedback items are'} unassigned. Assign them to a problem to surface patterns.
           </p>
         </div>
       )}
@@ -95,10 +95,10 @@ export default function DashboardPage() {
             <Plus size={18} style={{ color: '#D97706' }} />
           </div>
           <p className="text-sm font-semibold text-grain-primary" style={{ letterSpacing: '-0.01em' }}>
-            No clusters yet
+            No problems yet
           </p>
           <p className="text-sm text-grain-muted mt-1.5 max-w-xs mx-auto leading-relaxed">
-            Create a problem cluster and assign signals to it — that's when patterns start to emerge.
+            Create a problem and assign feedback to it — that's when patterns start to emerge.
           </p>
           <Button
             size="sm"
@@ -106,7 +106,7 @@ export default function DashboardPage() {
             onClick={() => setCreateOpen(true)}
           >
             <Plus size={14} />
-            Create first cluster
+            Create first problem
           </Button>
         </div>
       )}

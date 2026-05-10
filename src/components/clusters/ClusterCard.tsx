@@ -38,7 +38,7 @@ export default function ClusterCard({ cluster }: ClusterCardProps) {
             {cluster.signal_count}
           </p>
           <p className="text-xs text-grain-muted mt-0.5">
-            {cluster.signal_count === 1 ? 'signal' : 'signals'}
+            feedback
           </p>
         </div>
       </div>
@@ -46,8 +46,8 @@ export default function ClusterCard({ cluster }: ClusterCardProps) {
       <div className="mt-4 pt-3" style={{ borderTop: '1px solid #E8E6E1' }}>
         <p className="text-xs text-grain-muted">
           {cluster.last_signal_date
-            ? `Last signal ${formatRelativeDate(cluster.last_signal_date)}`
-            : 'No signals yet'}
+            ? `Last feedback ${formatRelativeDate(cluster.last_signal_date)}`
+            : 'No feedback yet'}
         </p>
       </div>
     </button>

@@ -169,7 +169,7 @@ function SharePanel({ clusterId }: { clusterId: string }) {
 
       {(!links || links.length === 0) && (
         <p className="text-xs text-grain-muted">
-          Generate a public read-only link to share this cluster with stakeholders.
+          Generate a public read-only link to share this problem with stakeholders.
         </p>
       )}
 
@@ -219,14 +219,14 @@ function exportBrief(cluster: ProblemCluster, signals: Signal[]) {
   lines.push('='.repeat(60))
   lines.push('')
   lines.push(`Status: ${STATUS_LABELS[cluster.status]}`)
-  lines.push(`Signals: ${signals.length}`)
+  lines.push(`Feedback: ${signals.length}`)
   lines.push(`Generated: ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`)
   lines.push('')
   lines.push('DESCRIPTION')
   lines.push('-'.repeat(40))
   lines.push(cluster.description)
   lines.push('')
-  lines.push('SIGNALS')
+  lines.push('FEEDBACK')
   lines.push('-'.repeat(40))
 
   signals.forEach((s, i) => {
@@ -265,10 +265,10 @@ export default function ClusterDetailPage() {
   const allSources = signals?.map((s) => s.source) ?? []
 
   if (isLoading) return <div className="text-sm text-grain-muted p-6">Loading…</div>
-  if (!cluster) return <div className="text-sm text-red-500 p-6">Cluster not found.</div>
+  if (!cluster) return <div className="text-sm text-red-500 p-6">Problem not found.</div>
 
   const tabs: { id: Tab; label: string }[] = [
-    { id: 'signals', label: `Signals${signals?.length ? ` (${signals.length})` : ''}` },
+    { id: 'signals', label: `Feedback${signals?.length ? ` (${signals.length})` : ''}` },
     { id: 'questions', label: 'Open Questions' },
     { id: 'share', label: 'Share' },
   ]
@@ -310,7 +310,7 @@ export default function ClusterDetailPage() {
                 {signals?.length ?? 0}
               </span>
               <p className="text-xs text-grain-muted mt-0.5">
-                {signals?.length === 1 ? 'signal' : 'signals'}
+                feedback
               </p>
             </div>
           </div>
@@ -386,9 +386,9 @@ export default function ClusterDetailPage() {
         <div>
           {!signals?.length && (
             <div className="card p-10 text-center">
-              <p className="text-sm font-semibold text-grain-primary">No signals yet</p>
+              <p className="text-sm font-semibold text-grain-primary">No feedback yet</p>
               <p className="text-xs text-grain-muted mt-1.5">
-                Go to the Signals page and assign signals here using the cluster dropdown.
+                Go to the Feedback page and assign feedback here using the problem dropdown.
               </p>
             </div>
           )}

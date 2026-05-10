@@ -35,7 +35,7 @@ export default function SharePage() {
         {/* Wordmark */}
         <div className="mb-8 flex items-center justify-between">
           <span className="text-grain-accent font-semibold text-base tracking-tight">grain</span>
-          <span className="text-xs text-grain-muted">Shared problem cluster</span>
+          <span className="text-xs text-grain-muted">Shared problem</span>
         </div>
 
         {loading && (
@@ -67,7 +67,7 @@ export default function SharePage() {
                     {data.signals.length}
                   </span>
                   <span className="text-xs text-grain-muted">
-                    {data.signals.length === 1 ? 'signal' : 'signals'}
+                    feedback
                   </span>
                 </div>
               </div>
@@ -116,7 +116,7 @@ export default function SharePage() {
               </div>
             ) : (
               <div className="bg-grain-surface border border-grain-border rounded-lg p-6 text-center">
-                <p className="text-sm text-grain-muted">No signals in this cluster yet.</p>
+                <p className="text-sm text-grain-muted">No feedback in this problem yet.</p>
               </div>
             )}
 

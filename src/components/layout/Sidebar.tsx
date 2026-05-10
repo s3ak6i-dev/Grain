@@ -7,7 +7,7 @@ import Logo from '@/components/ui/Logo'
 
 const NAV = [
   { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { to: '/signals', label: 'Signals', icon: List },
+  { to: '/signals', label: 'Feedback', icon: List },
   { to: '/analytics', label: 'Analytics', icon: BarChart2 },
   { to: '/settings', label: 'Settings', icon: Settings },
 ]
@@ -45,12 +45,29 @@ export default function Sidebar() {
       <div className="px-5 py-5" style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
         <Logo variant="dark" size="md" />
         {workspace && (
-          <p
-            className="text-xs mt-0.5 truncate"
-            style={{ color: 'rgba(255,255,255,0.28)' }}
-          >
-            {workspace.name}
-          </p>
+          <div className="flex items-center gap-2 mt-2">
+            {workspace.logo_url ? (
+              <img
+                src={workspace.logo_url}
+                alt={workspace.name}
+                className="w-4 h-4 rounded object-contain"
+                style={{ background: 'rgba(255,255,255,0.08)' }}
+              />
+            ) : (
+              <div
+                className="w-4 h-4 rounded flex items-center justify-center text-white shrink-0"
+                style={{ background: 'rgba(255,255,255,0.14)', fontSize: 9, fontWeight: 700 }}
+              >
+                {workspace.name[0].toUpperCase()}
+              </div>
+            )}
+            <p
+              className="text-xs truncate"
+              style={{ color: 'rgba(255,255,255,0.4)' }}
+            >
+              {workspace.name}
+            </p>
+          </div>
         )}
       </div>
 

@@ -33,10 +33,10 @@ export default function CreateClusterModal({ open, onClose }: CreateClusterModal
   }
 
   return (
-    <Modal open={open} onClose={handleClose} title="New problem cluster">
+    <Modal open={open} onClose={handleClose} title="New problem">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <Input
-          label="Cluster name"
+          label="Problem name"
           placeholder="Export friction"
           hint="Name the underlying problem, not the feature request"
           error={errors.name?.message}
@@ -55,7 +55,7 @@ export default function CreateClusterModal({ open, onClose }: CreateClusterModal
           <p className="text-xs text-red-500">
             {createCluster.error instanceof Error
               ? createCluster.error.message
-              : 'Failed to create cluster'}
+              : 'Failed to create problem'}
           </p>
         )}
 
@@ -64,7 +64,7 @@ export default function CreateClusterModal({ open, onClose }: CreateClusterModal
             Cancel
           </Button>
           <Button type="submit" size="sm" loading={createCluster.isPending}>
-            Create cluster
+            Create problem
           </Button>
         </div>
       </form>

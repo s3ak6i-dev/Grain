@@ -47,7 +47,7 @@ function FilterBar({ filters, onChange }: { filters: Filters; onChange: (f: Filt
         <Search size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-grain-muted pointer-events-none" />
         <input
           type="search"
-          placeholder="Search signals…"
+          placeholder="Search feedback…"
           value={filters.search}
           onChange={(e) => onChange({ ...filters, search: e.target.value })}
           className="pl-7 pr-3 py-1.5 text-xs rounded-lg border bg-white text-grain-primary border-grain-border placeholder:text-grain-muted focus:outline-none focus:ring-2 focus:ring-grain-accent/25 focus:border-grain-accent w-44 transition-colors"
@@ -93,8 +93,8 @@ function FilterBar({ filters, onChange }: { filters: Filters; onChange: (f: Filt
         className={cn(selectBase, filters.clustered !== 'all' && 'border-grain-accent text-grain-primary font-medium')}
       >
         <option value="all">All</option>
-        <option value="clustered">Clustered</option>
-        <option value="unclustered">Unclustered</option>
+        <option value="clustered">In a problem</option>
+        <option value="unclustered">Unassigned</option>
       </select>
 
       {hasActive && (
@@ -124,7 +124,7 @@ function ClusterSelect({ signal }: { signal: Signal }) {
       className="text-xs px-2 py-1 rounded-lg border bg-white text-grain-muted border-grain-border focus:outline-none focus:ring-1 focus:ring-grain-accent/30 focus:border-grain-accent transition-colors cursor-pointer disabled:opacity-50"
       style={{ color: signal.cluster_id ? '#18160F' : undefined, fontWeight: signal.cluster_id ? 500 : 400 }}
     >
-      <option value="">Unclustered</option>
+      <option value="">No problem assigned</option>
       {clusters?.map((c) => (
         <option key={c.id} value={c.id}>{c.name}</option>
       ))}
@@ -232,7 +232,7 @@ export default function SignalsPage() {
   return (
     <div>
       <div className="mb-8">
-        <h1 className="page-title">Signals</h1>
+        <h1 className="page-title">Feedback</h1>
         <p className="text-sm text-grain-muted mt-1">
           Every piece of user feedback your team has logged.
         </p>
@@ -247,16 +247,16 @@ export default function SignalsPage() {
 
       {!isLoading && signals?.length === 0 && (
         <div className="card p-10 text-center">
-          <p className="text-sm font-semibold text-grain-primary">No signals logged yet</p>
+          <p className="text-sm font-semibold text-grain-primary">No feedback logged yet</p>
           <p className="text-sm text-grain-muted mt-1.5">
-            Use the "Log signal" button above to capture your first user feedback.
+            Use the "Log feedback" button above to capture your first user feedback.
           </p>
         </div>
       )}
 
       {!isLoading && signals && signals.length > 0 && filtered.length === 0 && (
         <div className="card p-8 text-center">
-          <p className="text-sm font-semibold text-grain-primary">No signals match these filters</p>
+          <p className="text-sm font-semibold text-grain-primary">No feedback matches these filters</p>
           <button
             onClick={() => setFilters(DEFAULT_FILTERS)}
             className="text-xs text-grain-accent hover:underline mt-2"
@@ -270,7 +270,7 @@ export default function SignalsPage() {
         <>
           {hasFilters && (
             <p className="text-xs text-grain-muted mb-3">
-              {filtered.length} of {signals?.length} signals
+              {filtered.length} of {signals?.length}
             </p>
           )}
           <div className="card overflow-hidden divide-y divide-grain-border">

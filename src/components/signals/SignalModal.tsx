@@ -58,7 +58,7 @@ export default function SignalModal({ open, onClose }: SignalModalProps) {
   }
 
   return (
-    <Modal open={open} onClose={handleClose} title="Log a signal">
+    <Modal open={open} onClose={handleClose} title="Log feedback">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
 
         {/* Problem statement */}
@@ -101,7 +101,7 @@ export default function SignalModal({ open, onClose }: SignalModalProps) {
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-medium text-grain-primary">Signal date</label>
+            <label className="text-xs font-medium text-grain-primary">Date</label>
             <input
               type="date"
               className={cn(
@@ -237,7 +237,7 @@ export default function SignalModal({ open, onClose }: SignalModalProps) {
         {clusters && clusters.length > 0 && (
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-medium text-grain-primary">
-              Problem cluster <span className="text-grain-muted font-normal">(optional)</span>
+              Problem <span className="text-grain-muted font-normal">(optional)</span>
             </label>
             <select
               className={cn(
@@ -247,7 +247,7 @@ export default function SignalModal({ open, onClose }: SignalModalProps) {
               )}
               {...register('cluster_id')}
             >
-              <option value="">Leave unclustered</option>
+              <option value="">No problem</option>
               {clusters.map((c) => (
                 <option key={c.id} value={c.id}>{c.name}</option>
               ))}
@@ -257,7 +257,7 @@ export default function SignalModal({ open, onClose }: SignalModalProps) {
 
         {logSignal.isError && (
           <p className="text-xs text-red-500">
-            {logSignal.error instanceof Error ? logSignal.error.message : 'Failed to log signal'}
+            {logSignal.error instanceof Error ? logSignal.error.message : 'Failed to log feedback'}
           </p>
         )}
 
@@ -266,7 +266,7 @@ export default function SignalModal({ open, onClose }: SignalModalProps) {
             Cancel
           </Button>
           <Button type="submit" size="sm" loading={logSignal.isPending}>
-            Log signal
+            Log feedback
           </Button>
         </div>
       </form>

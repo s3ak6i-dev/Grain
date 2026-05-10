@@ -6,13 +6,17 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "remotion:preview": "remotion preview remotion/index.tsx",
+    "remotion:render": "remotion render remotion/index.tsx GrainDemo out/grain-demo.mp4 --codec=h264"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
+    "@remotion/google-fonts": "^4.0.459",
     "@supabase/supabase-js": "^2.49.0",
     "@tanstack/react-query": "^5.75.0",
     "clsx": "^2.1.1",
+    "elevenlabs": "^1.59.0",
     "lucide-react": "^0.475.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
@@ -20,13 +24,18 @@
     "react-router-dom": "^7.5.0",
     "recharts": "^3.8.1",
     "tailwind-merge": "^3.3.0",
+    "xlsx": "^0.18.5",
     "zod": "^3.24.0"
   },
   "devDependencies": {
+    "@remotion/cli": "^4.0.459",
+    "@remotion/transitions": "^4.0.459",
     "@tailwindcss/vite": "^4.1.0",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.0",
     "@vitejs/plugin-react": "^4.4.0",
+    "music-metadata": "^11.12.3",
+    "remotion": "^4.0.459",
     "tailwindcss": "^4.1.0",
     "typescript": "~5.8.0",
     "vite": "^6.3.0"
